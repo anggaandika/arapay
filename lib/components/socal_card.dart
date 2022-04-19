@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:arapay/utility/main.dart';
+
+class SocalCard extends StatelessWidget {
+  const SocalCard({
+    Key? key,
+    this.icon,
+    this.press,
+  }) : super(key: key);
+
+  final IconData? icon;
+  final Function? press;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press as void Function()?,
+      child: Container(
+        margin:
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+        padding: EdgeInsets.all(getProportionateScreenWidth(12)),
+        height: getProportionateScreenHeight(40),
+        width: getProportionateScreenWidth(40),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF5F6F9),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon!),
+      ),
+    );
+  }
+}
