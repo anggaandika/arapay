@@ -1,11 +1,9 @@
 // ignore_for_file: void_checks
-
 import 'dart:convert';
 
 import 'package:arapay/components/main.dart';
 import 'package:arapay/service/main.dart';
 import 'package:arapay/utility/main.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,13 +25,11 @@ class _InfoPaketState extends State<InfoPaket> {
 
   final List _listDom = ['Domestik', 'Internasional'];
   final List _listPaket = ['Paket', 'Dokument'];
-  static List _listTujuan = [];
+  List _listTujuan = [];
 
   @override
   void initState() {
-    setState(() {
-      theCodePos();
-    });
+    theCodePos();
     super.initState();
   }
 

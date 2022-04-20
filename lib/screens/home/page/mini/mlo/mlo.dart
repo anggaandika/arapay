@@ -22,9 +22,7 @@ class _MLOState extends State<MLO> {
   static List _listWilayah = [];
   @override
   void initState() {
-    setState(() {
-      theFee();
-    });
+    theFee();
     super.initState();
   }
 
