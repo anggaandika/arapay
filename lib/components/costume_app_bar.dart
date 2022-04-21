@@ -17,7 +17,7 @@ class _SubTitelState extends State<SubTitel> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       // _csaldo.text = prefs.getString("csaldo");
-      _csaldo = prefs.getInt("csaldo")!;
+      _csaldo = int.parse(prefs.getString("csaldo")!);
 
       // ignore: avoid_print
       print(context.read<Home>().countPage);

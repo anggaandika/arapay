@@ -93,7 +93,7 @@ class _RekeningKoranState extends State<RekeningKoran> {
     String _pasword = prefs.getString("password")!;
     String _ckdagen = prefs.getString("ckdagen")!;
     String _userid = prefs.getString("cuserid")!;
-    int _csaldo = prefs.getInt("csaldo")!;
+    int _csaldo = int.parse(prefs.getString("csaldo")!);
     String _deviceid = prefs.getString("IdTerminal")!;
     // ========== end ambil tgl ==========================
     var today;

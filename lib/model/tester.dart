@@ -1,3 +1,27 @@
+// var io = {
+//   Trxid: 124127, 
+//   cjalurpln: Backup, 
+//   Bagian_tujuan: 120, 
+//   ckdagen: 1001, 
+//   codeb2b: 65B47A7EC, 
+//   Bagian_asal: 110, 
+//   cnama: PUTRA MAHKOTA   TEST DEVELOP, 
+//   userid: angga, cversiapp: 4.04, token: , 
+//   keymlo: p05bDu@bdj03ar4!, 
+//   clevel: 1, 
+//   ckota: 80900, 
+//   csaldo: 13804800, 
+//   Kode_produk: 000, 
+//   cnostruk: 1179, 
+//   infokecil: Loket Android, 
+//   infoutama: ini LOKET 3 isi info utama, 
+//   ckdstation: 80000, 
+//   kdacc: 7000101604, 
+//   cuserid: angga, 
+//   mainagenid: MA-80000
+// };
+
+
 // data = {
 //   "data": [
 //     {

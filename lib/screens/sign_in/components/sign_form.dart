@@ -1,12 +1,14 @@
-// ignore_for_file: unused_local_variable, unused_field
+// ignore_for_file: unused_local_variable, unused_field, avoid_print
 
 import 'dart:convert';
 
+import 'package:arapay/model/geter_respon.dart';
+import 'package:arapay/screens/main.dart';
+import 'package:arapay/utility/util/prefter.dart';
 import 'package:flutter/material.dart';
 import 'package:arapay/components/main.dart';
 import 'package:arapay/helper/main.dart';
 import 'package:arapay/model/main.dart';
-import 'package:arapay/screens/home/home_screen.dart';
 import 'package:arapay/utility/main.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -213,88 +215,21 @@ class _SignFormState extends State<SignForm> {
           signatureid: signatureid));
       final jsonResp = json.decode(response!.body);
       if (response.statusCode == 200) {
-        login_respon loginrespon = login_respon.fromJson(jsonResp);
+        Reslogin loginrespon =
+            Reslogin.fromJson(GetRespon.fromJson(jsonResp).respon);
+        if (GetRespon.fromJson(jsonResp).success.contains("1")) {
+          createAgenSession(GetRespon.fromJson(jsonResp).success,
+              loginrespon.csaldo.toString());
 
-        if (loginrespon.success.contains("1")) {
-          createAgenSession(
-              loginrespon.success, loginrespon.reslogin.csaldo.toString());
-
-          void _saveData() async {
-            final prefs = await SharedPreferences.getInstance();
-            setState(() {
-              prefs.setString('password', hashed(password.toString()));
-              prefs.setString('IdTerminal', idTerminal);
-              prefs.setString('KdAktivasi', kdAktivasi);
-              prefs.setString('Trxid', loginrespon.reslogin.Trxid.toString());
-              prefs.getString("Trxid")!;
-              prefs.setString(
-                  'cjalurpln', loginrespon.reslogin.cjalurpln.toString());
-              prefs.getString("cjalurpln")!;
-              prefs.setString('Bagian_tujuan',
-                  loginrespon.reslogin.Bagian_tujuan.toString());
-              prefs.getString("Bagian_tujuan")!;
-              prefs.setString(
-                  'ckdagen', loginrespon.reslogin.ckdagen.toString());
-              prefs.getString("ckdagen")!;
-              prefs.setString(
-                  'codeb2b', loginrespon.reslogin.codeb2b.toString());
-              prefs.getString("codeb2b")!;
-              prefs.setString(
-                  'Bagian_asal', loginrespon.reslogin.Bagian_asal.toString());
-              prefs.getString("Bagian_asal")!;
-              prefs.setString('cnama', loginrespon.reslogin.cnama.toString());
-              prefs.getString("cnama")!;
-              prefs.setString('userid', loginrespon.reslogin.userid.toString());
-              prefs.getString("userid")!;
-              prefs.setString(
-                  'cversiapp', loginrespon.reslogin.cversiapp.toString());
-              prefs.getString("cversiapp")!;
-              prefs.setString('token', loginrespon.reslogin.token.toString());
-              prefs.getString("token")!;
-              prefs.setString('keymlo', loginrespon.reslogin.keymlo.toString());
-              prefs.getString("keymlo")!;
-              prefs.setString('clevel', loginrespon.reslogin.clevel.toString());
-              prefs.getString("clevel")!;
-              prefs.setString('ckota', loginrespon.reslogin.ckota.toString());
-              prefs.getString("ckota")!;
-              prefs.setInt(
-                  'csaldo', int?.tryParse(loginrespon.reslogin.csaldo)!);
-              prefs.getInt("csaldo")!;
-              prefs.setString(
-                  'Kode_produk', loginrespon.reslogin.Kode_produk.toString());
-              prefs.getString("Kode_produk")!;
-              prefs.setString(
-                  'cnostruk', loginrespon.reslogin.cnostruk.toString());
-              prefs.getString("cnostruk")!;
-              prefs.setString(
-                  'infokecil', loginrespon.reslogin.infokecil.toString());
-              prefs.getString("infokecil")!;
-              prefs.setString(
-                  'infoutama', loginrespon.reslogin.infoutama.toString());
-              prefs.getString("infoutama")!;
-              prefs.setString(
-                  'ckdstation', loginrespon.reslogin.ckdstation.toString());
-              prefs.getString("ckdstation")!;
-              prefs.setString('kdacc', loginrespon.reslogin.kdacc.toString());
-              prefs.getString("kdacc")!;
-              prefs.setString(
-                  'cuserid', loginrespon.reslogin.cuserid.toString());
-              prefs.getString("cuserid")!;
-              prefs.setString(
-                  'mainagenid', loginrespon.reslogin.mainagenid.toString());
-              prefs.getString("mainagenid")!;
-            });
-          }
-
-          _saveData();
-
+          Map<String, dynamic> sy = {
+            'password': hashed(password.toString()),
+            'KdAktivasi': kdAktivasi,
+            'IdTerminal': idTerminal,
+          };
+          Prefter().saveDataAll(GetRespon.fromJson(jsonResp).respon);
+          Prefter().saveDataAll(sy);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         } else {
-          // direct to home pegawai here
-          // createPegawaiSession(jsonResp['user']['username']);
-          // Navigator.pushReplacement(context,
-          //     MaterialPageRoute(builder: (context) => IndexPegawai.IndexPage()));
-
           dialog(context, "Password atau USerid salah");
         }
       } else if (response.statusCode == 401) {

@@ -34,7 +34,7 @@ class Service {
   Future post2(String url, {required body, encoding}) async {
     var _response = await http.post(
       Uri.parse(AppConfig.API_ENDPOINT + url),
-      body: body,
+      body: jsonDecode(body),
       headers: {
         "Accept": "application/json",
         "Authorization": "123456789222222",
