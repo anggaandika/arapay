@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, unused_field, avoid_print
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:arapay/model/geter_respon.dart';
 import 'package:arapay/screens/main.dart';
@@ -31,6 +32,8 @@ class _SignFormState extends State<SignForm> {
   void initState() {
     setState(() {
       clean();
+      buatKdAk();
+      readFile();
     });
     super.initState();
   }
@@ -180,7 +183,8 @@ class _SignFormState extends State<SignForm> {
 
     String? idTerminal = await PlatformDeviceId.getDeviceId;
 
-    String kdAktivasi = "ee8665b4fc";
+    File file = File(await getFilePath()); // 1
+    String kdAktivasi = await file.readAsString(); // 2
     String versi = "4.06";
     String usid = email.toString();
 

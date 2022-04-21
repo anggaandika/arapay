@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unused_local_variable, prefer_typing_uninitialized_variables, non_constant_identifier_names, duplicate_ignore, unused_element, unnecessary_null_comparison, unnecessary_string_interpolations
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -268,7 +269,8 @@ class LisrHistory extends StatelessWidget {
     String _userid = prefs.getString("cuserid")!;
     int _csaldo = prefs.getInt("csaldo")!;
     String _deviceid = prefs.getString("IdTerminal")!;
-    String kdAktivasi = "ee8665b4fc";
+    File file = File(await getFilePath()); // 1
+    String kdAktivasi = await file.readAsString(); // 2
     String bacasetsapikey = "123456";
     String nama = prefs.getString("cnama")!;
     String namaPdam = "PDAM ${snapshot['kdproduktrx'].replaceAll("KAB. ", "")}";

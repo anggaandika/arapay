@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:arapay/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:arapay/utility/main.dart';
@@ -15,11 +17,22 @@ class NoAccountText extends StatefulWidget {
 
 class _NoAccountTextState extends State<NoAccountText> {
   String? _deviceId;
+  String? _aktifasi;
 
   @override
   void initState() {
     super.initState();
+    kdAk();
     initPlatformState();
+  }
+
+  void kdAk() async {
+    File file = File(await getFilePath()); // 1
+    String fileContent = await file.readAsString(); // 2
+
+    setState(() {
+      _aktifasi = fileContent;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -58,7 +71,7 @@ class _NoAccountTextState extends State<NoAccountText> {
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
               child: Text(
-                'ee8665b4fc',
+                _aktifasi.toString(),
                 style: TextStyle(
                     fontSize: getProportionateScreenWidth(16),
                     color: kPrimaryColor),

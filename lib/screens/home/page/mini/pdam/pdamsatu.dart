@@ -39,7 +39,7 @@ class _PdamSatuState extends State<PdamSatu> {
       _ckdagen = prefs.getString("ckdagen")!;
       _userid = prefs.getString("cuserid")!;
       _cnostruk = prefs.getString("cnostruk")!;
-      _csaldo = prefs.getInt("csaldo")!;
+      _csaldo = int.parse(prefs.getString("csaldo")!);
       _deviceid = prefs.getString("IdTerminal")!;
     });
   }
