@@ -23,7 +23,7 @@ class PdamSatu extends StatefulWidget {
 
 class _PdamSatuState extends State<PdamSatu> {
   TextEditingController idpelpdam = TextEditingController();
-
+  bool? prosess;
   String bacasetsapikey = '',
       _pasword = '',
       lwilayah = '',
@@ -213,11 +213,14 @@ class _PdamSatuState extends State<PdamSatu> {
                 ),
                 SizedBox(height: getProportionateScreenWidth(25)),
                 SizedBox(
-                    width: double.infinity,
-                    child: largetButton(
-                        label: 'Lanjutkan',
-                        iconData: Icons.subdirectory_arrow_right,
-                        onPressed: () => showFancyCustomDialog(context))),
+                  width: double.infinity,
+                  child: largetButton(
+                      label: 'Lanjutkan',
+                      iconData: Icons.subdirectory_arrow_right,
+                      onPressed: () {
+                        showFancyCustomDialog(context);
+                      }),
+                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -316,8 +319,8 @@ class _PdamSatuState extends State<PdamSatu> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            // loadDialog(context, "Mohon Tunggu Sebentar");
                             prosesInqPdam();
+                            Navigator.of(context).pop();
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -432,10 +435,14 @@ class _PdamSatuState extends State<PdamSatu> {
       final jsonResp = json.decode(response!.body);
       if (response.statusCode == 200) {
         inqpdam_respon inqpdamrespon = inqpdam_respon.fromJson(jsonResp);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PdamDua(inqpdamrespon: inqpdamrespon)));
+        loadDialog(context, 'Mohon Tunggu...............');
+        Future.delayed(const Duration(seconds: 5), (() {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PdamDua(inqpdamrespon: inqpdamrespon)));
+        }));
       } else if (response.statusCode == 401) {
         dialog(context, jsonResp['message']);
       } else {

@@ -41,8 +41,10 @@ class HomeScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: false,
         title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Image.asset('assets/images/arra.png', color: Colors.white),
+          padding:
+              EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20)),
+          child: Image.asset('assets/images/arra.png',
+              color: Colors.white, scale: getProportionateScreenWidth(5)),
         ),
         actions: [
           _prov.countPage != 3
@@ -53,23 +55,23 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             width: getProportionateScreenWidth(25),
           ),
-          _prov.countPage != 3
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, SignInScreen.routeName);
-                    clean();
-                    Future.delayed(
-                      const Duration(seconds: 10),
-                      () => _prov.countPage = 0,
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                )
-              : Container(),
+          // _prov.countPage != 3
+          //     ? IconButton(
+          //         onPressed: () {
+          //           Navigator.pushReplacementNamed(
+          //               context, SignInScreen.routeName);
+          //           clean();
+          //           Future.delayed(
+          //             const Duration(seconds: 10),
+          //             () => _prov.countPage = 0,
+          //           );
+          //         },
+          //         icon: const Icon(
+          //           Icons.logout,
+          //           color: Colors.white,
+          //         ),
+          //       )
+          //     : Container(),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),

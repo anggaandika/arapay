@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_local_variable, prefer_typing_uninitialized_variables, non_constant_identifier_names, duplicate_ignore, unused_element, unnecessary_null_comparison, unnecessary_string_interpolations
+// ignore_for_file: unnecessary_null_comparison, avoid_print
 
 import 'dart:convert';
 import 'dart:io';
@@ -38,23 +38,16 @@ class _HistoryState extends State<History> {
       }
     }
 
-    @override
-    void dispose() {
-      AmbilHistoryCon();
-      super.dispose();
-    }
-
     return Scaffold(
       body: SizedBox(
         height: SizeConfig.screenHeight,
         child: FutureBuilder(
-          future: AmbilHistoryCon(),
+          future: ambilHistoryCon(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             snapshot.data ?? [];
             if (snapshot.hasError) {
               return Text('${snapshot.error}');
             } else if (snapshot.hasData) {
-              print(snapshot.data);
               if (snapshot.toString().contains("[]")) {
                 return const Card(
                   child: ListTile(
@@ -95,17 +88,14 @@ class _HistoryState extends State<History> {
     );
   }
 
-  // ignore: non_constant_identifier_names
-  Future AmbilHistoryCon() async {
+  Future ambilHistoryCon() async {
     final prefs = await SharedPreferences.getInstance();
     String _pasword = prefs.getString("password")!;
     String _ckdagen = prefs.getString("ckdagen")!;
     String _userid = prefs.getString("cuserid")!;
-    int _csaldo = int.parse(prefs.getString("csaldo")!);
     String _deviceid = prefs.getString("IdTerminal")!;
     // ========== end ambil tgl ==========================
-    var today;
-    // fungsi format Tanggal
+    DateTime today;
     if (selectedDate != null) {
       today = selectedDate;
     } else {
@@ -113,30 +103,24 @@ class _HistoryState extends State<History> {
     }
     var formatternya = DateFormat('yyyy/MM/dd');
     String formattedDate = formatternya.format(today);
-    // print(formattedDate);
     String tglaa = formattedDate.substring(0, 4);
     String tglab = formattedDate.substring(5, 7);
     String tglac = formattedDate.substring(8, 10);
-    // ignore: non_constant_identifier_names
-    String Tglnya = tglaa + tglab + tglac;
-    // ignore: non_constant_identifier_names
-    String KdAgen = _ckdagen;
-    // ignore: non_constant_identifier_names
-    String UserId = _userid;
-    String IdTerminal = _deviceid;
+    String tglnya = tglaa + tglab + tglac;
+    String kdAgen = _ckdagen;
+    String userId = _userid;
+    var idTerminal = _deviceid;
     String bacasetsapikey = "123456";
-    // ignore: non_constant_identifier_names
-    String Password = _pasword;
-    // String KdAktivasi = "ee8665b4fc"; //ini belum
+    String password = _pasword;
     try {
       return Service().post("/report/listtransaksiall",
           body: jsonEncode({
-            'tglapnya': Tglnya,
-            'kodeagen': KdAgen,
-            'userLogin': UserId,
-            'deviceid': IdTerminal,
+            'tglapnya': tglnya,
+            'kodeagen': kdAgen,
+            'userLogin': userId,
+            'deviceid': idTerminal,
             'bacasetsapikey': bacasetsapikey,
-            'pasword': Password,
+            'pasword': password,
           }));
     } catch (e) {
       print("Error : ${e.toString()}");
@@ -193,11 +177,11 @@ class LisrHistory extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final number = index + 1;
         return ListTile(
-          leading: const CircleAvatar(
+          leading: CircleAvatar(
             backgroundColor: kPrimaryColor,
             child: Text(
-              "1", // ambil karakter pertama text
-              style: TextStyle(
+              number.toString(), // ambil karakter pertama text
+              style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
               ),
@@ -245,7 +229,7 @@ class LisrHistory extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  "$formattedDate",
+                  formattedDate,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
@@ -271,7 +255,6 @@ class LisrHistory extends StatelessWidget {
     String _deviceid = prefs.getString("IdTerminal")!;
     File file = File(await getFilePath()); // 1
     String kdAktivasi = await file.readAsString(); // 2
-    String bacasetsapikey = "123456";
     String nama = prefs.getString("cnama")!;
     String namaPdam = "PDAM ${snapshot['kdproduktrx'].replaceAll("KAB. ", "")}";
     String isi48 = DateFormat('yyyyMMdd')

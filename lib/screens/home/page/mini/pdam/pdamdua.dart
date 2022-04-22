@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:arapay/screens/home/page/mini/view_print.dart';
 import 'package:flutter/material.dart';
 import 'package:arapay/model/PDAM/main.dart';
-import 'package:arapay/screens/main.dart';
 import 'package:arapay/utility/main.dart';
 
 class PdamDua extends StatefulWidget {
@@ -168,24 +167,8 @@ class _PdamDuaState extends State<PdamDua> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            // setState(() {
-                            //   if (prov.theSubmint != true) {
-                            FutureBuilder(
-                              future: prosesPayPdam(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.none:
-                                  case ConnectionState.active:
-                                  case ConnectionState.waiting:
-                                    return loadDialog(
-                                        context, "Mohon Tunggu Sebentar");
-                                  case ConnectionState.done:
-                                    break;
-                                }
-                                return const CircularProgressIndicator();
-                              },
-                            );
+                            prosesPayPdam();
+                            Navigator.pop(context);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -278,15 +261,17 @@ class _PdamDuaState extends State<PdamDua> {
       print(jsonResp);
       if (response.statusCode == 200) {
         paypdam_respon paypdamrespon = paypdam_respon.fromJson(jsonResp);
-
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return ViewPrint(
-              paypdamrespon: jsonResp["respaypdam"],
-              nama: 'Print',
-            );
-          },
+        Future.delayed(
+          const Duration(seconds: 5),
+          () => showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ViewPrint(
+                paypdamrespon: jsonResp["respaypdam"],
+                nama: 'Print',
+              );
+            },
+          ),
         );
 
         if (paypdamrespon.success.contains("1")) {

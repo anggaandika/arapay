@@ -18,15 +18,6 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
-                Text(
-                  "Welcome Back",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(28),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: getProportionateScreenWidth(20)),
                 Image.asset(
                   'assets/images/arra.png',
                   width: getProportionateScreenWidth(250),

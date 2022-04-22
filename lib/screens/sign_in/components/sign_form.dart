@@ -26,6 +26,7 @@ class _SignFormState extends State<SignForm> {
   String? email;
   String? password;
   bool? remember = false;
+  bool? prosesLog;
   final List<String?> errors = [];
 
   @override
@@ -36,6 +37,12 @@ class _SignFormState extends State<SignForm> {
       readFile();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    prosesLog = false;
+    super.dispose();
   }
 
   Future<void> clean() async {
@@ -71,16 +78,6 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           Row(
             children: [
-              Checkbox(
-                value: remember,
-                activeColor: kPrimaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    remember = value;
-                  });
-                },
-              ),
-              const Text("Remember me"),
               const Spacer(),
               GestureDetector(
                 onTap: () {},
@@ -100,10 +97,8 @@ class _SignFormState extends State<SignForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 prosesLogin();
-                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
           ),
@@ -222,6 +217,7 @@ class _SignFormState extends State<SignForm> {
         Reslogin loginrespon =
             Reslogin.fromJson(GetRespon.fromJson(jsonResp).respon);
         if (GetRespon.fromJson(jsonResp).success.contains("1")) {
+          loadDialog(context, 'Memprosess..........');
           createAgenSession(GetRespon.fromJson(jsonResp).success,
               loginrespon.csaldo.toString());
 
@@ -232,7 +228,11 @@ class _SignFormState extends State<SignForm> {
           };
           Prefter().saveDataAll(GetRespon.fromJson(jsonResp).respon);
           Prefter().saveDataAll(sy);
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+
+          Future.delayed(
+              const Duration(seconds: 5),
+              () => Navigator.pushReplacementNamed(
+                  context, HomeScreen.routeName));
         } else {
           dialog(context, "Password atau USerid salah");
         }
