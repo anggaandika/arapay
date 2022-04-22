@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:arapay/screens/home/page/mini/view_print.dart';
 import 'package:flutter/material.dart';
 import 'package:arapay/model/PDAM/main.dart';
 import 'package:arapay/screens/main.dart';
@@ -34,15 +35,7 @@ class _PdamDuaState extends State<PdamDua> {
         child: SafeArea(
           child: AppBar(
             backgroundColor: Colors.transparent,
-            leading: IconButton(
-              onPressed: () {
-                // prov.submit(true);
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const PdamSatu()));
-              },
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
+            automaticallyImplyLeading: false,
             shape: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent, width: 1.0),
               borderRadius: BorderRadius.only(
@@ -281,16 +274,20 @@ class _PdamDuaState extends State<PdamDua> {
               Info3: "Info3",
               Signature_id: signatureIdPay));
       final jsonResp = json.decode(response!.body);
+      // ignore: avoid_print
+      print(jsonResp);
       if (response.statusCode == 200) {
         paypdam_respon paypdamrespon = paypdam_respon.fromJson(jsonResp);
 
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Print(
-                      paypdamrespon: jsonResp,
-                      titel: 'Print',
-                    )));
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ViewPrint(
+              paypdamrespon: jsonResp["respaypdam"],
+              nama: 'Print',
+            );
+          },
+        );
 
         if (paypdamrespon.success.contains("1")) {
         } else {

@@ -7,6 +7,7 @@ import 'package:arapay/screens/home/page/mini/mlo/mlo_fom_dat_kirim.dart';
 import 'package:arapay/service/main.dart';
 import 'package:arapay/utility/main.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MLO extends StatefulWidget {
   const MLO({Key? key}) : super(key: key);
@@ -92,14 +93,19 @@ class _MLOState extends State<MLO> {
   }
 
   void theFee() async {
+    final prefs = await SharedPreferences.getInstance();
+    String _id = prefs.getString("IdTerminal")!;
+    String _user = prefs.getString("cuserid")!;
+    String _pasword = prefs.getString("password")!;
+    String _ckdagen = prefs.getString("ckdagen")!;
     try {
       Map<String, dynamic> data = await Service().post2("/nipos/getfee",
           body: jsonEncode({
             "bacasetsapikey": "123456",
-            "pasword": "202cb962ac59075b964b07152d234b70",
-            "kodeagen": "1001",
-            "userLogin": "bembi3",
-            "deviceid": "-1237982591",
+            "pasword": _pasword,
+            "kodeagen": _ckdagen,
+            "userLogin": _user,
+            "deviceid": _id,
             "customer_code": "",
             "origin_data_customer_zip_code": "10220",
             "destination_data_customer_zip_code": "10220",
@@ -116,7 +122,8 @@ class _MLOState extends State<MLO> {
 
       _listWilayah = data['data'];
     } catch (e) {
-      // print("Error : ${e.toString()}");
+      // ignore: avoid_print
+      print("Error : ${e.toString()}");
       return;
     }
   }

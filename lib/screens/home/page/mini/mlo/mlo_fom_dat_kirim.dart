@@ -30,11 +30,9 @@ class _InfoPaketState extends State<InfoPaket> {
   static List _listTujuan = [];
 
   @override
-  void initState() {
-    setState(() {
-      theCodePos();
-    });
-    super.initState();
+  void didChangeDependencies() {
+    theCodePos();
+    super.didChangeDependencies();
   }
 
   void addError({String? error}) {

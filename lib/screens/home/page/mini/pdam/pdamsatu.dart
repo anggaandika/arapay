@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables, non_constant_identifier_names, duplicate_ignore
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:arapay/components/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:arapay/model/main.dart';
 import 'package:arapay/utility/main.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
@@ -372,18 +374,12 @@ class _PdamSatuState extends State<PdamSatu> {
     String KdAgen = _ckdagen;
     String UserId = _userid;
 
-    // var bytes = utf8.encode(_pasword);
-    // var hashed = md5.convert(bytes);
-    // print(hashed);
-    // String Password = hashed.toString();
-
     String Password = _pasword;
 
-    String KdAktivasi = "ee8665b4fc"; //ini belum
-    String IdTerminal = "-1237982591"; // ini belum
+    String? idTerminal = await PlatformDeviceId.getDeviceId;
 
-    // String Responkota = _valCitys;
-    // ambil dari list pdam diatas
+    File file = File(await getFilePath()); // 1
+    String kdAktivasi = await file.readAsString(); // ini belum
     String jur = _valCitys.toString();
 
     List potongkdpdam = jur.split("|");
@@ -404,13 +400,13 @@ class _PdamSatuState extends State<PdamSatu> {
         KdAgen +
         UserId +
         Password +
-        IdTerminal +
-        KdAktivasi +
+        idTerminal.toString() +
+        kdAktivasi +
         KdProduk +
         NoStruk +
         NamaPdam +
         IdPel +
-        KdAktivasi;
+        kdAktivasi;
 
     try {
       final response = await InqPdamCon(
@@ -423,8 +419,8 @@ class _PdamSatuState extends State<PdamSatu> {
               KdAgen: KdAgen,
               UserId: UserId,
               Password: Password,
-              KdAktivasi: KdAktivasi,
-              IdTerminal: IdTerminal,
+              KdAktivasi: kdAktivasi,
+              IdTerminal: idTerminal.toString(),
               Responkota: '',
               KdProduk: KdProduk,
               Chanel: Chanel,
@@ -436,15 +432,10 @@ class _PdamSatuState extends State<PdamSatu> {
       final jsonResp = json.decode(response!.body);
       if (response.statusCode == 200) {
         inqpdam_respon inqpdamrespon = inqpdam_respon.fromJson(jsonResp);
-        print(inqpdamrespon);
-        print(inqpdamrespon.success);
-        print(inqpdamrespon.resinqpdam);
-
-        if (inqpdamrespon.success.contains("1")) {
-          Route route = MaterialPageRoute(
-              builder: (context) => PdamDua(inqpdamrespon: inqpdamrespon));
-          Navigator.pushReplacement(context, route);
-        } else {}
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PdamDua(inqpdamrespon: inqpdamrespon)));
       } else if (response.statusCode == 401) {
         dialog(context, jsonResp['message']);
       } else {
