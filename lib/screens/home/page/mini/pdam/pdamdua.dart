@@ -3,6 +3,7 @@ import 'package:arapay/screens/home/page/mini/view_print.dart';
 import 'package:flutter/material.dart';
 import 'package:arapay/model/PDAM/main.dart';
 import 'package:arapay/utility/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PdamDua extends StatefulWidget {
   // property
@@ -275,6 +276,8 @@ class _PdamDuaState extends State<PdamDua> {
         );
 
         if (paypdamrespon.success.contains("1")) {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString("csaldo", paypdamrespon.respaypdam.Saldo);
         } else {
           dialog(context, "Respon Code " + paypdamrespon.respaypdam.bit39);
         }

@@ -55,23 +55,6 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             width: getProportionateScreenWidth(25),
           ),
-          // _prov.countPage != 3
-          //     ? IconButton(
-          //         onPressed: () {
-          //           Navigator.pushReplacementNamed(
-          //               context, SignInScreen.routeName);
-          //           clean();
-          //           Future.delayed(
-          //             const Duration(seconds: 10),
-          //             () => _prov.countPage = 0,
-          //           );
-          //         },
-          //         icon: const Icon(
-          //           Icons.logout,
-          //           color: Colors.white,
-          //         ),
-          //       )
-          //     : Container(),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),

@@ -73,7 +73,7 @@ class _NoAccountTextState extends State<NoAccountText> {
               child: Text(
                 _aktifasi.toString(),
                 style: TextStyle(
-                    fontSize: getProportionateScreenWidth(16),
+                    fontSize: getProportionateScreenWidth(12),
                     color: kPrimaryColor),
               ),
             ),
@@ -92,7 +92,7 @@ class _NoAccountTextState extends State<NoAccountText> {
               child: Text(
                 _deviceId.toString(),
                 style: TextStyle(
-                    fontSize: getProportionateScreenWidth(16),
+                    fontSize: getProportionateScreenWidth(12),
                     color: kPrimaryColor),
               ),
             ),
@@ -111,7 +111,7 @@ class _NoAccountTextState extends State<NoAccountText> {
               child: Text(
                 "Daftar Dulu",
                 style: TextStyle(
-                    fontSize: getProportionateScreenWidth(16),
+                    fontSize: getProportionateScreenWidth(12),
                     color: kPrimaryColor),
               ),
             ),

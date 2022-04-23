@@ -12,6 +12,7 @@ import 'package:arapay/helper/main.dart';
 import 'package:arapay/model/main.dart';
 import 'package:arapay/utility/main.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignForm extends StatefulWidget {
@@ -229,10 +230,11 @@ class _SignFormState extends State<SignForm> {
           Prefter().saveDataAll(GetRespon.fromJson(jsonResp).respon);
           Prefter().saveDataAll(sy);
 
+          context.read<Home>().countPage = 0;
           Future.delayed(
-              const Duration(seconds: 5),
-              () => Navigator.pushReplacementNamed(
-                  context, HomeScreen.routeName));
+            const Duration(seconds: 1),
+            () => Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+          );
         } else {
           dialog(context, "Password atau USerid salah");
         }

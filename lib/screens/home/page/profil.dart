@@ -76,7 +76,8 @@ class _ProfilState extends State<Profil> {
             text: "Log Out",
             icon: Icons.logout,
             press: () {
-              Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+              Navigator.pop(context);
+              Provider.of<Home>(context, listen: false);
               clean();
             },
           ),

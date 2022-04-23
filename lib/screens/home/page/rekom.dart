@@ -36,9 +36,9 @@ class _RekeningKoranState extends State<RekeningKoran> {
     }
 
     @override
-    void dispose() {
+    void initState() {
+      super.initState();
       AmbilHistoryCon();
-      super.dispose();
     }
 
     return Scaffold(

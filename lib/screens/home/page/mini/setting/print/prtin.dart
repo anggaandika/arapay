@@ -37,7 +37,7 @@ class _PrintSettingState extends State<PrintSetting> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: Text('Setting Print',
             style: Theme.of(context).textTheme.titleMedium),
         actions: [

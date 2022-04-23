@@ -29,10 +29,31 @@ class _InfoPaketState extends State<InfoPaket> {
   final List _listPaket = ['Paket', 'Dokument'];
   static List _listTujuan = [];
 
+  FocusNode? pin2FocusNode;
+  FocusNode? pin3FocusNode;
+  FocusNode? pin4FocusNode;
+
   @override
-  void didChangeDependencies() {
+  void initState() {
+    super.initState();
+    pin2FocusNode = FocusNode();
+    pin3FocusNode = FocusNode();
+    pin4FocusNode = FocusNode();
     theCodePos();
-    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pin2FocusNode!.dispose();
+    pin3FocusNode!.dispose();
+    pin4FocusNode!.dispose();
+  }
+
+  void nextField(String value, FocusNode? focusNode) {
+    if (value.length == 1) {
+      focusNode!.requestFocus();
+    }
   }
 
   void addError({String? error}) {
@@ -85,7 +106,50 @@ class _InfoPaketState extends State<InfoPaket> {
                 SizedBox(height: getProportionateScreenHeight(30)),
                 buildBeratFormField(),
                 SizedBox(height: getProportionateScreenHeight(30)),
-                buildVolumeFormField(),
+                // buildVolumeFormField(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: getProportionateScreenWidth(60),
+                      child: TextFormField(
+                        autofocus: true,
+                        obscureText: true,
+                        style: const TextStyle(fontSize: 15),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: otpInputDecoration,
+                        onChanged: (value) {
+                          nextField(value, pin2FocusNode);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: getProportionateScreenWidth(60),
+                      child: TextFormField(
+                        focusNode: pin2FocusNode,
+                        obscureText: true,
+                        style: const TextStyle(fontSize: 15),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: otpInputDecoration,
+                        onChanged: (value) => nextField(value, pin3FocusNode),
+                      ),
+                    ),
+                    SizedBox(
+                      width: getProportionateScreenWidth(60),
+                      child: TextFormField(
+                        focusNode: pin3FocusNode,
+                        obscureText: true,
+                        style: const TextStyle(fontSize: 15),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: otpInputDecoration,
+                        onChanged: (value) => nextField(value, pin4FocusNode),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 buildNilaiBarangFormField(),
                 SizedBox(height: getProportionateScreenHeight(30)),
